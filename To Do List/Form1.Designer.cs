@@ -16,6 +16,7 @@
             if (disposing && (components != null))
             {
                 components.Dispose();
+               
             }
             base.Dispose(disposing);
         }
@@ -64,6 +65,7 @@
             checkedListBox.Location = new Point(193, 317);
             checkedListBox.Name = "checkedListBox";
             checkedListBox.Size = new Size(652, 290);
+            checkedListBox.Sorted = true;
             checkedListBox.TabIndex = 2;
             checkedListBox.SelectedIndexChanged += checkedListBox_SelectedIndexChanged;
             // 

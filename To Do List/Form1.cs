@@ -11,24 +11,37 @@ namespace To_Do_List
         public Form1()
         {
             InitializeComponent();
+            this.Load += new EventHandler(Form1_Load);
         }
-
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            // Carregar dados do ficheiro no início da aplicação, se a lista estiver vazia
+            if (checkedListBox.Items.Count == 0)
+            {
+                UploadFile(); // Carrega os dados do ficheiro automaticamente
+            }
+        }
         /* Atualiza a check box com um novo elemento*/
         public void UpdateCheckList()
         {
-            checkedListBox.Items.Clear();
-            foreach (string items in listaTarefas)
+            if (listaTarefas.Count == 0 && checkedListBox.Items.Count == 0)
             {
-                checkedListBox.Items.Add(items);
+                UploadFile();
+            }
+            else
+            {
+                checkedListBox.Items.Clear();
+                foreach (string items in listaTarefas)
+                {
+                    checkedListBox.Items.Add(items);
+                }
             }
         }
 
         /*Atualiza a checkBox Com o ultimo ficheiro txt ficheiro */
         public void TxtToCheckList(string items)
         {
-
             AddToList(items);
-
         }
 
         /*Adicona task a checklist*/
@@ -81,51 +94,30 @@ namespace To_Do_List
                 MessageBox.Show(e.ToString());
             }
         }
-        public void AutoSaveLine(List<string> listaTarefas, string newLine)
-        {
-            try
-            {
-                using (StreamWriter srLine = new StreamWriter(autoSaveCaminho, false))
-                {
-                    while (checkedListBox.Items.Count > 0)
-                    {
-                        foreach (string line in listaTarefas)
-                        {
-                            srLine.WriteLine(line);
-                        }
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.ToString());
-            }
-        }
-
 
         /* Evia os dados para a ckeckList*/
         public void UploadFile()
         {
             try
             {
-                using (StreamReader sr = File.OpenText(autoSaveCaminho))
+                if (File.Exists(autoSaveCaminho))
                 {
-                    string linha;
-                    while ((linha = sr.ReadLine()) != null)
+                    using (StreamReader sr = File.OpenText(autoSaveCaminho))
                     {
-                        TxtToCheckList(linha);
+                        string linha;
+                        while ((linha = sr.ReadLine()) != null)
+                        {
+                            TxtToCheckList(linha);
+                        }
                     }
+
                 }
-
-
             }
             catch (Exception e)
             {
                 MessageBox.Show(e.ToString());
             }
         }
-
-
 
         private void Add_Click(object sender, EventArgs e)
         {
@@ -149,17 +141,22 @@ namespace To_Do_List
 
         private void checkedListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+           
             try
             {
+                
                 if (checkedListBox.SelectedItems != null)
                 {
                     string selectedTask = checkedListBox.SelectedItem.ToString();
                     RemoveFromList(selectedTask);
                     UpdateCheckList();
                 }
-                else if (checkedListBox.Items.Count <= 0)
-                {
+                else if(checkedListBox.Items.Count == 0 && listaTarefas.Count < 0){
                     UploadFile();
+                }
+                else
+                {
+                    MessageBox.Show("Erro Desconhecido");
                 }
             }
             catch (Exception ex)
