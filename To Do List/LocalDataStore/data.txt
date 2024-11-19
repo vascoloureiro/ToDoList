@@ -1,4 +1,7 @@
-Ver lição do THREE
-Fazer Portofolio
-Fazer Resumos AST
-Ajeitar Frontend STRESS CONTROL
+adicionar decal ao mesh
+portofolio Fazer
+escollher empresas
+Ajustar o decal no mesh
+Permitir mudar o background
+Download do modelo uv
+Por me a par do aplicativo da Aula de Integração
